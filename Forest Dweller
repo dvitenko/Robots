@@ -1,0 +1,73 @@
+#include <kipr/botball.h>
+
+//digital port 0: left bumper  
+//digital port 1: front button
+//digital port 2: right bumper
+
+//motor 0: left wheel
+//motor 1: right wheel
+
+int th = 0; //times hit
+
+int main()
+{
+  
+  while(1){
+  motor(0,50);
+  motor(1,50);
+    if(digital(0) == 1){
+      printf("Left sensor hit. Turning.\n");
+      th++;
+        if(th >= 4) {
+          ao();
+          motor(0,-50);
+          motor(1,-50);
+          msleep(4000); //back up
+          motor(0,-40);
+          motor(1,40);
+          msleep(10000); //turn random
+       	}
+        else{
+          ao();
+          motor(0,-50);
+          motor(1,-50);
+          msleep(2000); //back up
+          motor(0,30);
+          motor(1,-30);
+          msleep(3500); //turn right
+        }
+    }
+    if(digital(1) == 1){
+      printf("Front sensor hit. Turning.\n");
+      ao();
+      motor(0,-50);
+      motor(1,-50);
+      msleep(2000); //back up
+      motor(0,30);
+      motor(1,-30);
+      msleep(5000); //turn around
+    }
+    if(digital(2) == 1){
+      printf("Right sensor hit. Doing Something.\n");
+      th++;
+        if(th >= 4) {
+          ao();
+          motor(0,-50);
+          motor(1,-50);
+          msleep(2000); //back up
+          motor(0,-30);
+          motor(1,30);
+          msleep(10000); //turn random
+       	}
+        else{
+          ao();
+          motor(0,-50);
+          motor(1,-50);
+          msleep(4000); //back up
+          motor(0,-30);
+          motor(1,30);
+          msleep(3500); //turn left
+       }
+    }
+  }
+}
