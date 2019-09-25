@@ -26,6 +26,7 @@ int main()
           motor(0,-40);
           motor(1,40);
           msleep(10000); //turn random
+          th = 0;
        	}
         else{
           ao();
@@ -58,6 +59,7 @@ int main()
           motor(0,-30);
           motor(1,30);
           msleep(10000); //turn random
+          th = 0;
        	}
         else{
           ao();
