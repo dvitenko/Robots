@@ -1,0 +1,44 @@
+include <kipr/botball.h>
+
+//sensor 0: front sensor
+//sensor 1: Top Hat
+
+//base 3300 max 3750
+
+int th = 0; //times hit
+int go = 1;
+
+int main(){
+  if(analog(0) >= 2900){
+    motor(0,0);
+    motor(1,0);
+    ao();
+  }
+while(go == 1){
+  motor(0,85);
+  motor(1,85);
+  if( analog(1) >= 3600 ){
+    printf("Line @ 100 percent \n");
+    ao();
+    motor(0,30);
+    motor(1,30);
+    msleep(100); //go forward
+    ao();
+  }
+else if(analog(1) < 3600){
+  printf("Line not at 100 percent, Searching...\n");
+  motor(0,30);
+  motor(1,-30);
+  msleep(500); //turn right
+  ao();
+  if(analog(1) < 3600){
+    motor(0,-30);
+    motor(1,30);
+    msleep(800);
+  }
+
+}
+}
+return 0;
+
+}
