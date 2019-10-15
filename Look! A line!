@@ -1,4 +1,4 @@
-include <kipr/botball.h>
+#include <kipr/botball.h>
 
 //sensor 0: front sensor
 //sensor 1: Top Hat
@@ -6,39 +6,68 @@ include <kipr/botball.h>
 //base 3300 max 3750
 
 int th = 0; //times hit
-int go = 1;
+int go = 1; 
+int line = 0; //not starting on the line
 
 int main(){
-  if(analog(0) >= 2900){
-    motor(0,0);
-    motor(1,0);
-    ao();
-  }
-while(go == 1){
-  motor(0,85);
-  motor(1,85);
-  if( analog(1) >= 3600 ){
-    printf("Line @ 100 percent \n");
-    ao();
-    motor(0,30);
+  while(line == 0){
+  	motor(0,30);
     motor(1,30);
-    msleep(100); //go forward
-    ao();
+  	if(analog(1) >= 3600){
+   		printf("Look! A line! \n");
+    	line = 1;
+    }
   }
-else if(analog(1) < 3600){
-  printf("Line not at 100 percent, Searching...\n");
-  motor(0,30);
-  motor(1,-30);
-  msleep(500); //turn right
-  ao();
-  if(analog(1) < 3600){
-    motor(0,-30);
-    motor(1,30);
-    msleep(800);
-  }
+  while(go == 1){
+  	motor(0,85);
+  	motor(1,85);
+    if(analog(0) >= 2900){
+  		go = 0;
+  	}
+	if(analog(1) >= 3600 ){
+  		printf("Line @ 100 percent \n");
+  		ao();
+  		motor(0,30);
+  		motor(1,30);
+  		msleep(100); //go forward
+  		ao();
+	}
+    else if(analog(1) < 3600){
+  		printf("Line not at 100 percent, Searching...\n");
+    	motor(0,30);
+  		motor(1,-30);
+  		msleep(500); //turn right
+    	ao();
+     	if(analog(1) < 3600){
+       		motor(0,-30);
+  			motor(1,30);
+  			msleep(800); //turn left
+     	}
+  	
+    }
+}
+  
+queenswave();
 
+ return 0;
 }
-}
-return 0;
 
+void queenswave(){
+	enable_servos();
+	set_servo_position(0,1900);
+	msleep(300);
+	set_servo_position(0,100);
+	msleep(300);
+	set_servo_position(0,1900);
+	msleep(300);
+	set_servo_position(0,100);
+	msleep(300);
+	set_servo_position(0,1900);
+	msleep(300);
+	set_servo_position(0,100);
+	msleep(300);
+  set_servo_position(0,1024);
+	msleep(300);
 }
+
+
