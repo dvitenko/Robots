@@ -1,0 +1,54 @@
+#include <kipr/botball.h>
+
+//sensor 0: front sensor
+//sensor 1: wall sensor
+
+int th = 0; //times hit
+int go = 1;
+
+int main(){
+  while(go == 1){
+    motor(0,85);
+    motor(1,85);
+      if(analog(0) > 2900 && th == 0){
+        printf("stop!\n");
+        ao();
+        motor(0,-30);
+        motor(1,30);
+        msleep(2500); //turn left
+        ao();
+        th++;
+        printf("added one\n");
+      }
+     else if(analog(0) > 2900 && th == 1){
+      printf("stop!\n");
+      go = 0;
+      ao(); //while loop is broken and program ends
+    }
+    if(analog(1) > 2900 && analog(1) < 2950){
+      printf("forward!\n");
+      ao();
+      motor(0,30);
+      motor(1,30);
+      msleep(500);
+      ao();
+    }
+    else if(analog(1) > 2950){ //if robot is too close to the wall
+      printf("turn slightly left!\n");
+      ao();
+      motor(0,-30);
+      motor(1,30);
+      msleep(100); //turn left
+      ao();
+    }
+    else if(analog(1) < 2900){ //if robot is too far from the wall
+      printf("turn slightly right!\n");
+      ao();
+      motor(0,30);
+      motor(1,-30);
+      msleep(100); //turn right
+      ao();
+    }
+  }
+  return 0;
+}  
