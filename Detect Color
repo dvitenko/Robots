@@ -1,0 +1,32 @@
+#include <kipr/botball.h>
+
+//0 - red
+//1 - pink
+//2 - green
+//3 - blue
+
+int main()
+{
+    camera_open();
+    while(1){
+        camera_update();
+        if(get_object_count(0) >= 1){
+        	printf("red\n");
+        }
+        if(get_object_count(1) >= 1){
+        	printf("pink\n");
+        }
+        if(get_object_count(2) >= 1){
+        	printf("green\n");
+        }
+        if(get_object_count(3) >= 1){
+        	printf("blue\n");
+        }
+        else{
+            printf("none\n");
+        }
+        
+    }
+    
+    return 0;
+}
