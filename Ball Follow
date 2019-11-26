@@ -1,0 +1,74 @@
+#include <kipr/botball.h>
+
+//0 - red
+//1 - pink
+//2 - green
+//3 - blue
+//4 - none
+int newpos;
+int currpos = 800;
+int main()
+{
+    camera_open();
+    enable_servos();
+    set_servo_position(0, 800);
+    while(1){
+        camera_update();
+        int posball = get_object_center_x(0,0);
+        printf("posball = %d\n", posball);
+        int posbally = get_object_center_y(0,0);
+        printf("posbally = %d\n", posbally);
+        if(posbally < 40){
+            forward();
+        }
+        if(posbally >= 40 && posbally <= 80){
+            ao();
+        }
+        if(posbally > 80){
+            backward();
+        }
+        if(posball == 0 || posball == -1){
+        	set_servo_position(0, currpos);
+        }
+        if(posball > 95){
+            lookl();
+            printf("curposr = %d\n", currpos);
+        }
+        if(posball < 65 && posball > 1){
+            lookr();
+            printf("curposl = %d\n", currpos);
+        }
+        else{
+          set_servo_position(0, currpos);
+        }
+        
+    }
+    
+    return 0;
+}
+void lookr(){
+    currpos = currpos+50;
+    set_servo_position(0, currpos);
+    msleep(150);
+}
+ void lookl(){
+    currpos = currpos-50;
+    set_servo_position(0, currpos);
+     msleep(150);
+}
+
+void forward(){
+    motor(0,50);
+    motor(1,50);
+    motor(2,50);
+    motor(3,50);
+    msleep(50);
+}        
+
+void backward(){
+    motor(0,-50);
+    motor(1,-50);
+    motor(2,-50);
+    motor(3,-50);
+    msleep(50);
+}    
